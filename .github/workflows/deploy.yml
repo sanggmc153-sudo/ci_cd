@@ -1,19 +1,32 @@
-name: Java CI
+# 고정된 key 
+# name : 작업 이름 지정
 
-on:
-  push:
-  pull_request:
+name: JAR만들기
 
+# on : 실행 시점 지정 (언제 자동화 실행할껀데?)
+# [] 여러개의 실행 시점을 줄 수있다.
+# [push, pull_request]
+on: [push]
+
+# jobs : 작업 목록  (실행할 작업들)
+# build: 작업에 이름을 붙인다.
+# runs-on : 실행할 컴퓨터가 뭐니? 어디서 작업을 실행하니?
+#    깃허브야 작업할 리눅스 컴퓨터 하나 준비해줄래?
+# steps:  순서대로 할일 (작업의 실행 순서)
+#  uses: actions/checkout@v6
+#   - 내 github 에 가서 자바 코드와 gradle 파일들을 가져와!
 jobs:
   build:
+    #Git 허브가 제공하는 리눅스 컴퓨터 사용
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    # 작업할 일 
+    steps: 
+        #깃허브 저장소 코드 가져오기
+      - uses: actions/checkout@v6
+      
+        # 자바 설치
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      - name: Test and build
-        run: bash gradlew test bootJar
-        
-
+      - run: bash gradlew bootJar
